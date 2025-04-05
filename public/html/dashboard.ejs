@@ -6,12 +6,96 @@
     <title>Growtopia - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .pixel-border {
+            border-style: solid;
+            border-width: 4px;
+            border-image: linear-gradient(135deg, 
+                #2b4d6d 0%, 
+                #2b4d6d 25%, 
+                #87b8cc 25%, 
+                #87b8cc 50%, 
+                #2b4d6d 50%, 
+                #2b4d6d 75%, 
+                #87b8cc 75%, 
+                #87b8cc 100%) 4;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pixel-button {
+            position: relative;
+            background: #00b8ff;
+            color: white;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s ease;
+        }
+        
+        .pixel-button:hover {
+            background: #06a4dd;
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pixel-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: none;
+        }
+        
+        .pixel-input {
+            border-style: solid;
+            border-width: 3px;
+            border-image: linear-gradient(135deg, 
+                #81d4fa 0%, 
+                #81d4fa 50%, 
+                #2b4d6d 50%, 
+                #2b4d6d 100%) 3;
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pixel-font {
+            font-family: 'Courier New', monospace;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pixel-bg {
+            background: repeating-linear-gradient(
+                0deg,
+                #2b4d6d,
+                #2b4d6d 2px,
+                #1e3a5f 2px,
+                #1e3a5f 4px
+            );
+        }
+        
+        .pixel-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .pixel-title:after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #00b8ff;
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
-<body class="flex flex-col items-center justify-center h-screen bg-[#e0f7fa]">
+<body class="flex flex-col items-center justify-center h-screen bg-[#1e3a5f]">
     <div class="fixed inset-0 flex items-center justify-center">
-        <div class="relative bg-[#2b4d6d] border-4 border-[#87b8cc] shadow-lg p-6 w-80 rounded-lg">
-            <p class="text-white text-center font-bold text-2xl">Login</p>
-            <div id="errorDiv" class="hidden flex flex-col mt-2 text-xs text-red-700 font-bold px-[5px] bg-[#2b4d6d] rounded">
+        <div class="relative pixel-bg pixel-border p-6 w-80 rounded-sm">
+            <!-- Pixel art decoration elements -->
+            <div class="absolute -top-4 -left-4 w-8 h-8 bg-[#87b8cc]"></div>
+            <div class="absolute -top-4 -right-4 w-8 h-8 bg-[#87b8cc]"></div>
+            <div class="absolute -bottom-4 -left-4 w-8 h-8 bg-[#87b8cc]"></div>
+            <div class="absolute -bottom-4 -right-4 w-8 h-8 bg-[#87b8cc]"></div>
+            
+            <p class="text-white text-center font-bold text-2xl mb-4 pixel-font pixel-title">LOGIN</p>
+            <div id="errorDiv" class="hidden flex flex-col mt-2 text-xs text-red-400 font-bold px-[5px] bg-[#2b4d6d] rounded-sm border-2 border-red-400">
                 <a id="errorMessage"></a>
             </div>
             <form 
@@ -19,29 +103,34 @@
             action="/player/growid/login/validate"
             accept-charset="UTF-8"
             id="loginForm" class="mt-3">
-                <div class="mb-1">
+                <div class="mb-3">
                     <input name="type" value="log" type="hidden" />
                     <input name="_token" value="<%= JSON.stringify(data) %>" type="hidden" />
-                    <label for="loginGrowId" class="block text-white text-xs">GrowID</label>
-                    <div class="flex items-center border-2 border-[#81d4fa] rounded bg-[#2b4d6d] px-1 py-1">
-                        <i class="fas fa-user text-white mr-1 text-xs"></i>
-                        <input type="text" name="growId" id="loginGrowId" class="w-full bg-[#2b4d6d] text-white text-xs placeholder-white focus:outline-none" placeholder="Enter your growid">
+                    <label for="loginGrowId" class="block text-white text-sm mb-1 pixel-font">GROWID</label>
+                    <div class="flex items-center pixel-input rounded-sm bg-[#2b4d6d] px-2 py-2">
+                        <i class="fas fa-user text-[#81d4fa] mr-2 text-sm"></i>
+                        <input type="text" name="growId" id="loginGrowId" class="w-full bg-transparent text-white text-sm placeholder-[#81d4fa] focus:outline-none pixel-font" placeholder="ENTER GROWID">
                     </div>
                 </div>
-                <div class="mb-1">
-                    <label for="loginPassword" class="block text-white text-xs">Password</label>
-                    <div class="flex items-center border-2 border-[#81d4fa] rounded bg-[#2b4d6d] px-1 py-1">
-                        <i class="fas fa-lock text-white mr-1 text-xs"></i>
-                        <input type="password" name="password" id="loginPassword" class="w-full bg-[#2b4d6d] text-white text-xs placeholder-white focus:outline-none" placeholder="Enter your password">
-                        <button type="button" id="toggleLogPassword" class="text-white ml-2 focus:outline-none text-xs">
+                <div class="mb-4">
+                    <label for="loginPassword" class="block text-white text-sm mb-1 pixel-font">PASSWORD</label>
+                    <div class="flex items-center pixel-input rounded-sm bg-[#2b4d6d] px-2 py-2">
+                        <i class="fas fa-lock text-[#81d4fa] mr-2 text-sm"></i>
+                        <input type="password" name="password" id="loginPassword" class="w-full bg-transparent text-white text-sm placeholder-[#81d4fa] focus:outline-none pixel-font" placeholder="ENTER PASSWORD">
+                        <button type="button" id="toggleLogPassword" class="text-[#81d4fa] ml-2 focus:outline-none text-sm">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
                 </div>
                 <div class="flex justify-end items-center">
-                    <button id="loginButton" class="px-2 py-1 rounded bg-[#00b8ff] text-white text-xs hover:bg-[#06a4dd] transition duration-300 ease-in-out transform hover:scale-105">Login</button>
+                    <button id="loginButton" class="px-4 py-2 rounded-sm pixel-button pixel-font">LOGIN</button>
                 </div>
             </form>
+            
+            <!-- Pixel art footer decoration -->
+            <div class="absolute bottom-2 left-0 right-0 flex justify-center">
+                <div class="h-1 w-16 bg-[#00b8ff]"></div>
+            </div>
         </div>
     </div>
     <script>
