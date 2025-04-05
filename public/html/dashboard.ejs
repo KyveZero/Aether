@@ -3,162 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growtopia - Dashboard</title>
+    <title>Wyvern - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        .glass-card {
-            background: rgba(43, 77, 109, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+        .glass-panel {
+            background: rgba(43, 77, 109, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(135, 184, 204, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
         
         .input-field {
-            transition: all 0.3s ease;
             background: rgba(43, 77, 109, 0.5);
+            border: 1px solid rgba(135, 184, 204, 0.4);
+            transition: all 0.2s ease;
         }
         
         .input-field:focus-within {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(0, 184, 255, 0.3);
+            border-color: #00b8ff;
+            box-shadow: 0 0 0 2px rgba(0, 184, 255, 0.2);
         }
         
-        .login-btn {
-            background: linear-gradient(135deg, #00b8ff, #0084ff);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 184, 255, 0.4);
+        .btn-primary {
+            background: linear-gradient(to bottom, #00b8ff, #0084ff);
+            transition: all 0.2s ease;
         }
         
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 184, 255, 0.6);
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 184, 255, 0.3);
         }
         
-        .guest-btn {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-            transition: all 0.3s ease;
+        .btn-secondary {
+            background: rgba(43, 77, 109, 0.7);
+            border: 1px solid rgba(135, 184, 204, 0.4);
+            transition: all 0.2s ease;
         }
         
-        .guest-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.4);
+        .btn-secondary:hover {
+            background: rgba(43, 77, 109, 0.9);
         }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        
-        .slide-in {
-            animation: slideIn 0.6s ease-out forwards;
-        }
-        
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-[#1e3a5f] to-[#0f1c2e] overflow-hidden">
-    <!-- Animated background elements -->
-    <div class="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-[#00b8ff] opacity-10 blur-xl floating"></div>
-    <div class="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-[#87b8cc] opacity-10 blur-xl floating" style="animation-delay: 2s;"></div>
-    
-    <!-- Main login card -->
-    <div class="glass-card rounded-xl p-8 w-full max-w-md shadow-2xl fade-in">
-        <div class="text-center mb-8 slide-in">
-            <i class="fas fa-leaf text-5xl text-[#00b8ff] mb-4"></i>
-            <h1 class="text-3xl font-bold text-white">Welcome to Growtopia</h1>
-            <p class="text-gray-300 mt-2">Build, create, and play with friends!</p>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-b from-[#0f1c2e] to-[#1e3a5f] p-4">
+    <div class="glass-panel rounded-xl w-full max-w-sm p-6">
+        <div class="text-center mb-6">
+            <div class="inline-block p-3 rounded-full bg-[#00b8ff]/10 mb-3">
+                <i class="fas fa-leaf text-3xl text-[#00b8ff]"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-white">Welcome to Growtopia</h1>
+            <p class="text-gray-300 mt-1">Build, create, and play with friends!</p>
         </div>
         
-        <div id="errorDiv" class="hidden flex flex-col mt-2 text-xs text-red-400 font-bold px-4 py-3 bg-red-900/30 rounded-lg border border-red-400/50 mb-4 fade-in delay-1">
+        <div id="errorDiv" class="hidden mb-4 p-3 text-sm text-red-300 bg-red-900/30 rounded-lg border border-red-400/50">
             <span id="errorMessage"></span>
         </div>
         
-        <form 
-            method="post"
-            action="/player/growid/login/validate"
-            accept-charset="UTF-8"
-            id="loginForm" class="space-y-6">
-            <div class="space-y-4">
-                <input name="type" value="log" type="hidden" />
-                <input name="_token" value="<%= JSON.stringify(data) %>" type="hidden" />
-                
-                <div class="input-field rounded-lg border border-[#81d4fa]/30 p-3 fade-in delay-1">
-                    <label for="loginGrowId" class="block text-sm text-[#81d4fa] mb-1">GrowID</label>
-                    <div class="flex items-center">
-                        <i class="fas fa-user text-[#81d4fa] mr-3"></i>
-                        <input type="text" name="growId" id="loginGrowId" class="w-full bg-transparent text-white placeholder-[#81d4fa]/70 focus:outline-none" placeholder="Enter your growid">
-                    </div>
-                </div>
-                
-                <div class="input-field rounded-lg border border-[#81d4fa]/30 p-3 fade-in delay-2">
-                    <label for="loginPassword" class="block text-sm text-[#81d4fa] mb-1">Password</label>
-                    <div class="flex items-center">
-                        <i class="fas fa-lock text-[#81d4fa] mr-3"></i>
-                        <input type="password" name="password" id="loginPassword" class="w-full bg-transparent text-white placeholder-[#81d4fa]/70 focus:outline-none" placeholder="Enter your password">
-                        <button type="button" id="toggleLogPassword" class="text-[#81d4fa] ml-2 focus:outline-none">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
+        <form id="loginForm" class="space-y-4">
+            <input name="type" value="log" type="hidden">
+            <input name="_token" value="<%= JSON.stringify(data) %>" type="hidden">
+            
+            <div class="input-field rounded-lg p-3">
+                <label for="loginGrowId" class="block text-sm text-[#81d4fa] mb-1">GrowID</label>
+                <div class="flex items-center">
+                    <i class="fas fa-user text-[#81d4fa] mr-2"></i>
+                    <input type="text" name="growId" id="loginGrowId" class="w-full bg-transparent text-white placeholder-[#81d4fa]/70 focus:outline-none" placeholder="Enter your growid">
                 </div>
             </div>
             
-            <div class="flex flex-col space-y-4 fade-in delay-3">
-                <button id="loginButton" class="login-btn text-white font-bold py-3 px-6 rounded-lg">
-                    Login
+            <div class="input-field rounded-lg p-3">
+                <label for="loginPassword" class="block text-sm text-[#81d4fa] mb-1">Password</label>
+                <div class="flex items-center">
+                    <i class="fas fa-lock text-[#81d4fa] mr-2"></i>
+                    <input type="password" name="password" id="loginPassword" class="w-full bg-transparent text-white placeholder-[#81d4fa]/70 focus:outline-none" placeholder="Enter your password">
+                    <button type="button" id="toggleLogPassword" class="text-[#81d4fa] ml-2 focus:outline-none">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex space-x-3 pt-2">
+                <button type="button" id="cancelButton" class="btn-secondary text-white py-2 px-4 rounded-lg flex-1">
+                    Cancel
                 </button>
-                
-                <button id="guestButton" type="button" class="guest-btn text-white font-bold py-3 px-6 rounded-lg">
-                    Continue as Guest
+                <button id="loginButton" class="btn-primary text-white py-2 px-4 rounded-lg flex-1">
+                    Login
                 </button>
             </div>
         </form>
-        
-        <div class="text-center mt-6 text-sm text-gray-400 fade-in delay-3">
-            Don't have an account? <a href="#" class="text-[#81d4fa] hover:underline">Sign up</a>
-        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Load saved username if exists
             if (localStorage.getItem('growId')) {
                 document.getElementById('loginGrowId').value = localStorage.getItem('growId');
             }
 
-            // Guest login handler
-            document.getElementById('guestButton').addEventListener('click', function() {
-                // Show loading state
-                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Continuing as Guest...';
-                
-                // Simulate loading delay
-                setTimeout(() => {
-                    // Redirect or perform guest login action
-                    window.location.href = '/guest/dashboard';
-                }, 1000);
-            });
-
-            // Original login handler
             document.getElementById('loginButton').addEventListener('click', function (event) {
                 event.preventDefault();
 
@@ -175,18 +117,11 @@
                     document.getElementById('errorMessage').innerHTML = 'Username or Password must be at least 4 characters long';
                     return;
                 } else {
-                    // Show loading state
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Logging in...';
-                    
-                    // Submit form after short delay to show loading state
-                    setTimeout(() => {
-                        loginForm.submit();
-                        localStorage.setItem('growId', document.getElementById('loginGrowId').value);
-                    }, 500);
+                    loginForm.submit();
+                    localStorage.setItem('growId', document.getElementById('loginGrowId').value);
                 }
             });
 
-            // Password toggle
             document.getElementById('toggleLogPassword').addEventListener('click', function () {
                 const LpasswordField = document.getElementById('loginPassword')
                 const LpasswordFieldType = LpasswordField.getAttribute('type');
@@ -197,6 +132,10 @@
                     LpasswordField.setAttribute('type', 'password');
                     this.innerHTML = '<i class="fas fa-eye"></i>';
                 }
+            });
+
+            document.getElementById('cancelButton').addEventListener('click', function() {
+                window.location.href = '/';
             });
         });
     </script>
