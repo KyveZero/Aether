@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Growtopia - Dashboard</title>
+    <title>Growtopia - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -29,11 +29,20 @@
             overflow: hidden;
             touch-action: none;
         }
+
+        .form-container {
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        hr {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center h-screen">
     <div class="fixed inset-0 flex items-center justify-center">
-        <div class="relative glass-effect shadow-2xl p-8 w-80 rounded-2xl transform transition-all duration-300 hover:scale-[1.02]">
+        <div class="relative glass-effect shadow-2xl p-8 w-80 rounded-2xl transform transition-all duration-300 hover:scale-[1.02] form-container">
             <p class="text-white text-center font-bold text-3xl mb-6 animate-float">
                 <span class="text-[#00b8ff]">LOGIN</span> PANEL
             </p>
@@ -64,7 +73,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="flex justify-center gap-2">
+                <div class="flex justify-center gap-2 pt-4">
                     <button id="loginButton" class="px-6 py-2 rounded-full bg-[#00b8ff]/80 text-white font-bold text-sm hover:scale-105 transition-all duration-300">
                         ACCESS WORLD
                     </button>
@@ -80,13 +89,14 @@
         document.body.style.overflow = 'hidden';
         document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 
-        // Original functionality
+        // Auto-fill saved username
         document.addEventListener('DOMContentLoaded', function () {
             if (localStorage.getItem('growId')) {
                 document.getElementById('loginGrowId').value = localStorage.getItem('growId');
             }
         });
 
+        // Login handler
         document.getElementById('loginButton').addEventListener('click', function (event) {
             event.preventDefault();
             const errorDiv = document.getElementById('errorDiv');
@@ -105,6 +115,7 @@
             }
         });
 
+        // Error message handler
         function showError(message) {
             const errorDiv = document.getElementById('errorDiv');
             const errorMessage = document.getElementById('errorMessage');
@@ -115,16 +126,12 @@
             }, 3000);
         }
 
+        // Toggle password visibility
         document.getElementById('toggleLogPassword').addEventListener('click', function () {
-            const LpasswordField = document.getElementById('loginPassword')
-            const LpasswordFieldType = LpasswordField.getAttribute('type');
-            if (LpasswordFieldType === 'password') {
-                LpasswordField.setAttribute('type', 'text');
-                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
-            } else {
-                LpasswordField.setAttribute('type', 'password');
-                this.innerHTML = '<i class="fas fa-eye"></i>';
-            }
+            const passwordField = document.getElementById('loginPassword');
+            const type = passwordField.getAttribute('type');
+            passwordField.setAttribute('type', type === 'password' ? 'text' : 'password');
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
         });
     </script>
 </body>
