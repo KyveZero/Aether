@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Growtopia - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -12,33 +12,32 @@
             50% { transform: translateY(-5px); }
             100% { transform: translateY(0px); }
         }
-        
-        @keyframes pulse {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; }
-            100% { opacity: 0.8; }
-        }
 
         .glass-effect {
-            background: rgba(43, 77, 109, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 2px solid rgba(135, 184, 204, 0.3);
+            background: rgba(43, 77, 109, 0.4) !important;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(135, 184, 204, 0.2);
         }
 
         .input-glow:focus {
-            box-shadow: 0 0 15px rgba(0, 184, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 184, 255, 0.2);
+        }
+
+        body {
+            background: transparent !important;
+            overflow: hidden;
+            touch-action: none;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-[#0a2e47] to-[#1a4b6e]">
+<body class="flex flex-col items-center justify-center h-screen">
     <div class="fixed inset-0 flex items-center justify-center">
         <div class="relative glass-effect shadow-2xl p-8 w-80 rounded-2xl transform transition-all duration-300 hover:scale-[1.02]">
-            <div class="absolute inset-0 rounded-2xl border-2 border-[#87b8cc]/30 animate-pulse"></div>
-            <p class="text-white text-center font-bold text-3xl mb-6 drop-shadow-lg animate-float">
+            <p class="text-white text-center font-bold text-3xl mb-6 animate-float">
                 <span class="text-[#00b8ff]">LOGIN</span> PANEL
             </p>
-            <div id="errorDiv" class="hidden mt-2 text-xs text-red-400 font-bold px-2 py-2 bg-red-900/20 rounded-lg transition-all duration-300 opacity-0 -translate-y-2">
+            <div id="errorDiv" class="hidden mt-2 text-xs text-red-400 font-bold px-2 py-2 bg-red-900/20 rounded-lg transition-all duration-300">
                 <a id="errorMessage"></a>
             </div>
             <form 
@@ -49,41 +48,39 @@
                 <div>
                     <input name="type" value="log" type="hidden" />
                     <input name="_token" value="<%= JSON.stringify(data) %>" type="hidden" />
-                    <div class="group relative">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-[#00b8ff] to-[#0066ff] rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-                        <div class="relative flex items-center border-2 border-[#81d4fa]/30 rounded-lg bg-[#2b4d6d]/30 px-3 py-2 transition-all duration-300 hover:border-[#81d4fa]/60">
-                            <i class="fas fa-user text-[#81d4fa] mr-2 text-sm"></i>
-                            <input type="text" name="growId" id="loginGrowId" class="w-full bg-transparent text-white text-sm placeholder-[#81d4fa]/70 focus:outline-none input-glow" 
-                                   placeholder="Enter your growid"
-                                   style="text-shadow: 0 0 8px rgba(129, 212, 250, 0.3);">
-                        </div>
+                    <div class="relative flex items-center border-2 border-[#81d4fa]/20 rounded-lg bg-[#2b4d6d]/20 px-3 py-2">
+                        <i class="fas fa-user text-[#81d4fa] mr-2 text-sm"></i>
+                        <input type="text" name="growId" id="loginGrowId" class="w-full bg-transparent text-white text-sm placeholder-[#81d4fa]/50 focus:outline-none input-glow" 
+                               placeholder="Enter your growid">
                     </div>
                 </div>
                 <div>
-                    <div class="group relative">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-[#00b8ff] to-[#0066ff] rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-                        <div class="relative flex items-center border-2 border-[#81d4fa]/30 rounded-lg bg-[#2b4d6d]/30 px-3 py-2 transition-all duration-300 hover:border-[#81d4fa]/60">
-                            <i class="fas fa-lock text-[#81d4fa] mr-2 text-sm"></i>
-                            <input type="password" name="password" id="loginPassword" class="w-full bg-transparent text-white text-sm placeholder-[#81d4fa]/70 focus:outline-none input-glow" 
-                                   placeholder="Enter your password"
-                                   style="text-shadow: 0 0 8px rgba(129, 212, 250, 0.3);">
-                            <button type="button" id="toggleLogPassword" class="text-[#81d4fa] ml-2 focus:outline-none hover:text-white transition-colors">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
+                    <div class="relative flex items-center border-2 border-[#81d4fa]/20 rounded-lg bg-[#2b4d6d]/20 px-3 py-2">
+                        <i class="fas fa-lock text-[#81d4fa] mr-2 text-sm"></i>
+                        <input type="password" name="password" id="loginPassword" class="w-full bg-transparent text-white text-sm placeholder-[#81d4fa]/50 focus:outline-none input-glow" 
+                               placeholder="Enter your password">
+                        <button type="button" id="toggleLogPassword" class="text-[#81d4fa] ml-2 focus:outline-none hover:text-white transition-colors">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="flex justify-center">
-                    <button id="loginButton" class="px-6 py-2 rounded-full bg-gradient-to-r from-[#00b8ff] to-[#0066ff] text-white font-bold text-sm hover:scale-105 hover:shadow-lg transition-all duration-300 transform group relative">
-                        <span class="relative z-10">ACCESS WORLD</span>
-                        <div class="absolute inset-0 bg-gradient-to-r from-[#00b8ff] to-[#0066ff] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+                <div class="flex justify-center gap-2">
+                    <button id="loginButton" class="px-6 py-2 rounded-full bg-[#00b8ff]/80 text-white font-bold text-sm hover:scale-105 transition-all duration-300">
+                        ACCESS WORLD
+                    </button>
+                    <button type="button" class="px-6 py-2 rounded-full bg-[#ff3b30]/80 text-white font-bold text-sm hover:scale-105 transition-all duration-300">
+                        Cancel
                     </button>
                 </div>
             </form>
         </div>
     </div>
     <script>
-        // Original JavaScript functionality remains unchanged
+        // Prevent scrolling
+        document.body.style.overflow = 'hidden';
+        document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+        // Original functionality
         document.addEventListener('DOMContentLoaded', function () {
             if (localStorage.getItem('growId')) {
                 document.getElementById('loginGrowId').value = localStorage.getItem('growId');
@@ -95,9 +92,6 @@
             const errorDiv = document.getElementById('errorDiv');
             const uName = document.getElementById('loginGrowId').value;
             const uPass = document.getElementById('loginPassword').value;
-
-            errorDiv.classList.remove('animate-error');
-            void errorDiv.offsetWidth; // Trigger reflow
 
             if (!uName || !uPass) {
                 showError('Username or Password is empty');
@@ -115,10 +109,9 @@
             const errorDiv = document.getElementById('errorDiv');
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.textContent = message;
-            errorDiv.classList.remove('hidden', 'opacity-0', '-translate-y-2');
-            errorDiv.classList.add('animate-error');
+            errorDiv.classList.remove('hidden');
             setTimeout(() => {
-                errorDiv.classList.add('opacity-0', '-translate-y-2');
+                errorDiv.classList.add('hidden');
             }, 3000);
         }
 
@@ -134,26 +127,5 @@
             }
         });
     </script>
-    <style>
-        @keyframes error {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(5px); }
-            50% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-            100% { transform: translateX(0); }
-        }
-
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-error {
-            animation: error 0.4s ease-in-out;
-        }
-
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-    </style>
 </body>
 </html>
