@@ -29,49 +29,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(rateLimiter({ windowMs: 15 * 60 * 1000, max: 100, headers: true }));
 
-app.all('/player/growid/checktoken', function (req, res) {
-    const valKey = req.query.valKey;
-    if (!valKey) {
-        return res.status(400).json({ status: 'error', message: 'Missing validation key' });
-    }
-    // Validate the key here
-    res.json({ status: 'success', message: 'Token validated' });
-});
-
 app.all('/player/login/dashboard', function (req, res) {
-    const valKey = req.query.valKey;
     const tData = {};
-    
-    if (valKey) {
-        // Process validation key if present
-        tData.valKey = valKey;
-    }
-    
     try {
-        const uData = JSON.stringify(req.body).split('"')[1].split('\\n');
-        const uName = uData[0].split('|');
-        const uPass = uData[1].split('|');
-        for (let i = 0; i < uData.length - 1; i++) {
-            const d = uData[i].split('|');
-            tData[d[0]] = d[1];
-        }
-        if (uName[1] && uPass[1]) {
-            res.redirect('/player/growid/login/validate');
-        }
-    } catch (why) {
-        console.log(`Warning: ${why}`);
-    }
+        const uData = JSON.stringify(req.body).split('"')[1].split('\\n'); const uName = uData[0].split('|'); const uPass = uData[1].split('|');
+        for (let i = 0; i < uData.length - 1; i++) { const d = uData[i].split('|'); tData[d[0]] = d[1]; }
+        if (uName[1] && uPass[1]) { res.redirect('/player/growid/login/validate'); }
+    } catch (why) { console.log(`Warning: ${why}`); }
 
     res.render(__dirname + '/public/html/dashboard.ejs', { data: tData });
-});
-
-app.all('/player/growid/login', (req, res) => {
-    const token = req.query.token;
-    if (!token) {
-        return res.status(400).json({ status: 'error', message: 'Missing token' });
-    }
-    // Validate token here
-    res.redirect('/player/login/dashboard?valKey=' + token);
 });
 
 app.all('/player/growid/login/validate', (req, res) => {
@@ -86,15 +52,6 @@ app.all('/player/growid/login/validate', (req, res) => {
     res.send(
         `{"status":"success","message":"Account Validated.","token":"${token}","url":"","accountType":"growtopia"}`,
     );
-});
-
-app.all('/player/link/dashboard/validate/:token', (req, res) => {
-    const token = req.params.token;
-    if (!token) {
-        return res.status(400).json({ status: 'error', message: 'Missing token' });
-    }
-    // Validate token here
-    res.json({ status: 'success', message: 'Dashboard validated' });
 });
 
 app.all('/player/*', function (req, res) {
